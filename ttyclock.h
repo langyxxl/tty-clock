@@ -46,12 +46,13 @@
 #include <sys/types.h>
 #include <locale.h>
 #include <time.h>
+#include <sys/time.h>
 #include <unistd.h>
 #include <ncurses.h>
 
 /* Macro */
 #define NORMFRAMEW 35
-#define SECFRAMEW  54
+#define SECFRAMEW  68
 #define DATEWINH   3
 #define AMSIGN     " [AM]"
 #define PMSIGN     " [PM]"
@@ -100,7 +101,7 @@ typedef struct
      {
           unsigned int hour[2];
           unsigned int minute[2];
-          unsigned int second[2];
+          unsigned int second[3];
           char datestr[256];
           char old_datestr[256];
      } date;

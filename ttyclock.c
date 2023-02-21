@@ -173,8 +173,10 @@ update_hour(void)
 {
      int ihour;
      char tmpstr[128];
+     struct timeval now;
 
-     ttyclock.lt = time(NULL);
+     gettimeofday(&now, NULL);
+     ttyclock.lt = (time_t)now.tv_sec;
      ttyclock.tm = localtime(&(ttyclock.lt));
      if(ttyclock.option.utc) {
           ttyclock.tm = gmtime(&(ttyclock.lt));
@@ -210,6 +212,7 @@ update_hour(void)
      /* Set seconds */
      ttyclock.date.second[0] = ttyclock.tm->tm_sec / 10;
      ttyclock.date.second[1] = ttyclock.tm->tm_sec % 10;
+     ttyclock.date.second[2] = now.tv_usec / 100000;
 
      return;
 }
@@ -292,6 +295,8 @@ draw_clock(void)
           /* Draw second numbers */
           draw_number(ttyclock.date.second[0], 1, 39);
           draw_number(ttyclock.date.second[1], 1, 46);
+          mvwaddstr(ttyclock.framewin, 5, SECFRAMEW-15, "  ");
+          draw_number(ttyclock.date.second[2], 1, 56);
      }
 
      return;
@@ -563,9 +568,10 @@ main(int argc, char **argv)
      /* Default color */
      ttyclock.option.color = COLOR_GREEN; /* COLOR_GREEN = 2 */
      /* Default delay */
-     ttyclock.option.delay = 1; /* 1FPS */
-     ttyclock.option.nsdelay = 0; /* -0FPS */
+     ttyclock.option.delay = 0; /* delay 0s */
+     ttyclock.option.nsdelay = 50000000; /* 50ms */
      ttyclock.option.blink = false;
+     ttyclock.option.second = true;
 
      atexit(cleanup);
 

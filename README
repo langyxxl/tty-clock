@@ -1,3 +1,10 @@
+
+添加毫秒显示，主要是秒杀的时候看一下，方便抢东西
+
+用法：
+make
+./tty-clock
+
 usage : tty-clock [-iuvsScbtrahDBxn] [-C [0-7]] [-f format] [-d delay] [-a nsdelay] [-T tty]
     -s            Show seconds
     -S            Screensaver mode
